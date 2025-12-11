@@ -1,8 +1,11 @@
-export default function NavBar({ quantity }) {
+export default function NavBar({ quantity, onLogout }) {
   return (
     <nav className="NavBar">
       <div className="NavDiv NavUser">
         <h3>Hello, username</h3>
+        <button type="button" onClick={onLogout} className="logoutBtn">
+          Logout
+        </button>
       </div>
       <div className="NavDiv NavTitle">
         <h2>Groceries App 🍎</h2>
