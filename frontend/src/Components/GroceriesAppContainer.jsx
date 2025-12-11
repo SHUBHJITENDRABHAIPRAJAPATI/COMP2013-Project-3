@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import CartContainer from "./CartContainer";
 import ProductsContainer from "./ProductsContainer";
 import NavBar from "./NavBar";
@@ -7,10 +8,11 @@ import ProductForm from "./ProductForm";
 
 export default function GroceriesAppContainer() {
   /////////// States ///////////
-  const [productQuantity, setProductQuantity] = useState();
+  const [productQuantity, setProductQuantity] = useState([]);
   const [cartList, setCartList] = useState([]);
   const [productList, setProductList] = useState([]);
   const [postResponse, setPostResponse] = useState("");
+  const [priceFilter, setPriceFilter] = useState("");
   const [formData, setFormData] = useState({
     productName: "",
     brand: "",
@@ -18,6 +20,8 @@ export default function GroceriesAppContainer() {
     price: "",
   });
   const [isEditing, setIsEditing] = useState(false);
+
+  const navigate = useNavigate();
 
   //////////useEffect////////
 
@@ -194,10 +198,27 @@ export default function GroceriesAppContainer() {
   const handleClearCart = () => {
     setCartList([]);
   };
+
+  const handleLogout = () => {
+    localStorage.removeItem("token"); //Backend does not store cookies, so I'm using local storage.
+    navigate("/login"); //Can be changed depending on what our login is.
+  };
+
+  //Filter products
+  const filteredProducts = productList.filter((product) => {
+    if (priceFilter === "" || priceFilter === null) return true;
+    const priceFix = String(product.price).replace(/[^0-9.]/g, "");
+    const priceNumber = parseFloat(priceFix);
+    if (isNaN(priceNumber)) return false;
+
+    return priceNumber < Number(priceFilter);
+  });
+
   /////////Renderer
   return (
     <div>
-      <NavBar quantity={cartList.length} />
+      <NavBar quantity={cartList.length} onLogout={handleLogout} />
+
       <div className="GroceriesApp-Container">
         <ProductForm
           handleOnSubmit={handleOnSubmit}
@@ -206,8 +227,64 @@ export default function GroceriesAppContainer() {
           formData={formData}
           isEditing={isEditing}
         />
+
+        <div className="FilterBox">
+          <h3>Filter Price</h3>
+          <div>
+            <label>
+              Show all
+              <input
+                type="radio"
+                name="priceFilter"
+                value=""
+                checked={priceFilter === ""}
+                onChange={(e) => setPriceFilter(e.target.value)}
+              />
+            </label>
+          </div>
+
+          <div>
+            <label>
+              {"<2.00$"}
+              <input
+                type="radio"
+                name="priceFilter"
+                value="2"
+                checked={priceFilter === "2"}
+                onChange={(e) => setPriceFilter(e.target.value)}
+              />
+            </label>
+          </div>
+
+          <div>
+            <label>
+              {"<4.00$"}
+              <input
+                type="radio"
+                name="priceFilter"
+                value="4"
+                checked={priceFilter === "4"}
+                onChange={(e) => setPriceFilter(e.target.value)}
+              />
+            </label>
+          </div>
+
+          <div>
+            <label>
+              {"<6.00$"}
+              <input
+                type="radio"
+                name="priceFilter"
+                value="6"
+                checked={priceFilter === "6"}
+                onChange={(e) => setPriceFilter(e.target.value)}
+              />
+            </label>
+          </div>
+        </div>
+
         <ProductsContainer
-          products={productList}
+          products={filteredProducts}
           handleAddQuantity={handleAddQuantity}
           handleRemoveQuantity={handleRemoveQuantity}
           handleAddToCart={handleAddToCart}

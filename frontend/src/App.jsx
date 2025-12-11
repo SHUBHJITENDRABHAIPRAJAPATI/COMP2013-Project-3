@@ -1,12 +1,15 @@
 import "./App.css";
-import products from "./data/products";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import GroceriesAppContainer from "./Components/GroceriesAppContainer";
 
 function App() {
   return (
-    <>
-      <GroceriesAppContainer products={products} />
-    </>
+    <BrowserRouter>
+      <Routes>
+        {/* TEMPORARY FOR DEBUGGING, GROCERIESAPPCONTAINER WILL BE "/main" */}
+        <Route path="/" element={<GroceriesAppContainer />} />
+      </Routes>
+    </BrowserRouter>
   );
 }
 
