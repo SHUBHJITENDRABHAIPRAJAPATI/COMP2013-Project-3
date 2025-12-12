@@ -240,7 +240,11 @@ export default function GroceriesAppContainer() {
   /////////Renderer
   return (
     <div>
-      <NavBar quantity={cartList.length} onLogout={handleLogout} />
+      <NavBar
+        quantity={cartList.length}
+        onLogout={handleLogout}
+        username={currentUser}
+      />
 
       <div className="GroceriesApp-Container">
         <ProductForm
