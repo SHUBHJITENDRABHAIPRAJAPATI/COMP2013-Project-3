@@ -38,7 +38,7 @@ export default function CreatePage() {
         postResponse={postResponse}
         handleOnChange={handleOnChange}
         handleOnSubmit={handleOnSubmit}
-        currentPage="Register"
+        currentPage="register"
         nextPage="login"
       />
     </div>

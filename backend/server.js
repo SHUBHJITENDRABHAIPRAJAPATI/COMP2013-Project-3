@@ -8,7 +8,7 @@ const User = require("./models/user"); //getting user model
 const bcrypt = require("bcrypt"); //for hashing password
 const jwt = require("jsonwebtoken"); //
 require("dotenv").config();
-const { DB_URI, JWT_SECRET } = process.env;
+const { DB_URI, SECRET_KEY } = process.env;
 
 //setting up middleware
 server.use(cors());

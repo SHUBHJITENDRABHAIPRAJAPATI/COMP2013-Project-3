@@ -224,7 +224,7 @@ export default function GroceriesAppContainer() {
   const handleLogout = () => {
     Cookies.remove("jwt-authorization");
     setCurrentUser("");
-    navigate("/login"); //Can be changed depending on what our login is.
+    navigate("/"); //Can be changed depending on what our login is.
   };
 
   //Filter products

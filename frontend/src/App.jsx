@@ -24,17 +24,15 @@ function App() {
         <Route path="/not-authorized" element={<NotAuthorized />} />
 
         {/* Public Routes */}
-          <Route path="/" element={<LoginPage />} />
+        <Route path="/" element={<LoginPage />} />
 
-           {/* Privte Routes */}
-           <Route path="/add-product" element={<PrivateRoute> <AddProductPage /> </PrivateRoute>  } />
+        {/* Privte Routes */}
+        {/* <Route path="/add-product" element={<PrivateRoute> <AddProductPage /> </PrivateRoute>  } />
 
-          <Route path="/edit-product/:id"  element={<PrivateRoute>  <EditProductPage />  </PrivateRoute>  } />
+          <Route path="/edit-product/:id"  element={<PrivateRoute>  <EditProductPage />  </PrivateRoute>  } /> */}
 
         {/*Not found page, catches any paths that don't exist - KEEP AT BOTTOM OF ROUTES*/}
         <Route path="*" element={<PageNotFound />} />
-
-
       </Routes>
     </BrowserRouter>
   );
