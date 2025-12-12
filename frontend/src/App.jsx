@@ -13,6 +13,8 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
+        <Route path="/register" element={<CreatePage />} />
+
         {/* TEMPORARY FOR DEBUGGING, GROCERIESAPPCONTAINER WILL BE "/main" */}
         <Route path="/main" element={<GroceriesAppContainer />} />
 
@@ -22,11 +24,10 @@ function App() {
         {/* Public Routes */}
         <Route path="/" element={<LoginPage />} />
 
-        <Route path="/login" element={<LoginPage />} />
-
         {/* Privte Routes */}
-        <Route path="/add-product" element={<AddProductPage />} />
-        <Route path="/edit-product/:id" element={<EditProductPage />} />
+        {/* <Route path="/add-product" element={<PrivateRoute> <AddProductPage /> </PrivateRoute>  } />
+
+          <Route path="/edit-product/:id"  element={<PrivateRoute>  <EditProductPage />  </PrivateRoute>  } /> */}
 
         {/*Not found page, catches any paths that don't exist - KEEP AT BOTTOM OF ROUTES*/}
         <Route path="*" element={<PageNotFound />} />

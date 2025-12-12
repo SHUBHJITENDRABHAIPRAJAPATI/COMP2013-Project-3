@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 
-export default function ({
+export default function FormComponent({
   formData,
   handleOnSubmit,
   handleOnChange,
@@ -11,9 +11,7 @@ export default function ({
   const navigate = useNavigate();
   return (
     <div>
-      <h1>
-        {currentPage === "create-page" ? "Create a new user" : "Groceries App"}
-      </h1>
+      <h1>{currentPage === "login" ? "Groceries App" : "Create a new user"}</h1>
       <form onSubmit={handleOnSubmit}>
         <label htmlFor="username">Username: </label>
         <input
@@ -36,8 +34,12 @@ export default function ({
         <button>Submit</button>
       </form>
       <p>{postResponse}</p>
-      <button onClick={() => navigate(`/${nextPage}`)}>
-        {nextPage === "" ? "Back to login page" : "Not a member? click here"}
+      <button
+        onClick={() => navigate(nextPage === "login" ? "/" : `/${nextPage}`)}
+      >
+        {nextPage === "login"
+          ? "Back to login page"
+          : "Not a member? click here"}
       </button>
     </div>
   );

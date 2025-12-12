@@ -1,49 +1,52 @@
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import axios from "axios";
-import { useAuth } from "../context/AuthContext";
+import FormComponent from "./FormComponent";
+import Cookies from "js-cookie";
 
 export default function LoginPage() {
   const [formData, setFormData] = useState({ username: "", password: "" });
-  const [errorMsg, setErrorMsg] = useState("");
+  const [postResponse, setPostResponse] = useState("");
 
   const navigate = useNavigate();
-  const { setUser, setToken } = useAuth();
 
   const handleOnChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+    setFormData((prevData) => {
+      return { ...prevData, [e.target.name]: e.target.value };
+    });
   };
 
-  const handleOnSubmit = async (e) => {
+  const handleOnSubmit = (e) => {
     e.preventDefault();
+    handleLogin();
+    setFormData({ username: "", password: "" });
+  };
 
+  const handleLogin = async () => {
     try {
-      const res = await axios.post("http://localhost:3000/login", formData);
-      setToken(res.data.token);
-      setUser(res.data.username);
-      navigate("/main");
+      const response = await axios.post("http://localhost:3000/login", {
+        ...formData,
+      });
+      setPostResponse(response.data.message);
+      if (response.status == 201) {
+        navigate("/main");
+        Cookies.set("jwt-authorization", response.data.token);
+      }
     } catch (error) {
-      setErrorMsg(error.response.data.message);
+      setPostResponse(error.response.data.message || "Login Failed!");
     }
   };
 
   return (
     <div>
-      <h1>Login</h1>
-
-      <form onSubmit={handleOnSubmit}>
-        <label>Username</label>
-        <input name="username" value={formData.username} onChange={handleOnChange} />
-
-        <label>Password</label>
-        <input type="password" name="password" value={formData.password} onChange={handleOnChange} />
-
-        <button type="submit">Login</button>
-      </form>
-
-      {errorMsg && <p style={{ color: "red" }}>{errorMsg}</p>}
-
-      <Link to="/register">Not registered? Create an account</Link>
+      <FormComponent
+        formData={formData}
+        postResponse={postResponse}
+        handleOnChange={handleOnChange}
+        handleOnSubmit={handleOnSubmit}
+        currentPage="login"
+        nextPage="register"
+      />
     </div>
   );
 }

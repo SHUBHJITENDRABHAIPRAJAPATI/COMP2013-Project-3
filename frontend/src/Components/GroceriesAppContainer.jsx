@@ -4,6 +4,9 @@ import CartContainer from "./CartContainer";
 import ProductsContainer from "./ProductsContainer";
 import NavBar from "./NavBar";
 import axios from "axios";
+import ProductForm from "./ProductForm";
+import { jwtDecode } from "jwt-decode";
+import Cookies from "js-cookie";
 
 export default function GroceriesAppContainer() {
   /////////// States ///////////
@@ -20,9 +23,29 @@ export default function GroceriesAppContainer() {
   });
   const [isEditing, setIsEditing] = useState(false);
 
+  //
+  const [currentUser, setCurrentUser] = useState(() => {
+    const jwtToken = Cookies.get("jwt-authorization");
+    if (!jwtToken) {
+      return "";
+    }
+    try {
+      const decodedToken = jwtDecode(jwtToken);
+      return decodedToken.username;
+    } catch {
+      return "";
+    }
+  });
+
   const navigate = useNavigate();
 
   //////////useEffect////////
+
+  useEffect(() => {
+    if (!currentUser) {
+      navigate("/not-authorized");
+    }
+  }, []);
 
   useEffect(() => {
     handleProductsFromDB();
@@ -199,8 +222,9 @@ export default function GroceriesAppContainer() {
   };
 
   const handleLogout = () => {
-    localStorage.removeItem("token"); //Backend does not store cookies, so I'm using local storage.
-    navigate("/login"); //Can be changed depending on what our login is.
+    Cookies.remove("jwt-authorization");
+    setCurrentUser("");
+    navigate("/"); //Can be changed depending on what our login is.
   };
 
   //Filter products
@@ -216,7 +240,11 @@ export default function GroceriesAppContainer() {
   /////////Renderer
   return (
     <div>
-      <NavBar quantity={cartList.length} onLogout={handleLogout} />
+      <NavBar
+        quantity={cartList.length}
+        onLogout={handleLogout}
+        username={currentUser}
+      />
 
       <div className="GroceriesApp-Container">
         <div className="FilterBox">
