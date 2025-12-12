@@ -4,7 +4,6 @@ import CartContainer from "./CartContainer";
 import ProductsContainer from "./ProductsContainer";
 import NavBar from "./NavBar";
 import axios from "axios";
-import ProductForm from "./ProductForm";
 
 export default function GroceriesAppContainer() {
   /////////// States ///////////
@@ -220,14 +219,6 @@ export default function GroceriesAppContainer() {
       <NavBar quantity={cartList.length} onLogout={handleLogout} />
 
       <div className="GroceriesApp-Container">
-        <ProductForm
-          handleOnSubmit={handleOnSubmit}
-          postResponse={postResponse}
-          handleOnChange={handleOnChange}
-          formData={formData}
-          isEditing={isEditing}
-        />
-
         <div className="FilterBox">
           <h3>Filter Price</h3>
           <div>

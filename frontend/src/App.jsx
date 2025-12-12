@@ -7,7 +7,6 @@ import LoginPage from "./Components/LoginPage";
 import AddProductPage from "./Components/AddProductPage";
 import EditProductPage from "./Components/EditProductPage";
 
-
 //Jacob Tummon
 
 function App() {
@@ -15,23 +14,22 @@ function App() {
     <BrowserRouter>
       <Routes>
         {/* TEMPORARY FOR DEBUGGING, GROCERIESAPPCONTAINER WILL BE "/main" */}
-        <Route path="/" element={<GroceriesAppContainer />} />
+        <Route path="/main" element={<GroceriesAppContainer />} />
 
         {/*Not authorized page*/}
         <Route path="/not-authorized" element={<NotAuthorized />} />
 
         {/* Public Routes */}
-          <Route path="/" element={<LoginPage />} />
+        <Route path="/" element={<LoginPage />} />
 
-           {/* Privte Routes */}
-           <Route path="/add-product" element={<PrivateRoute> <AddProductPage /> </PrivateRoute>  } />
+        <Route path="/login" element={<LoginPage />} />
 
-          <Route path="/edit-product/:id"  element={<PrivateRoute>  <EditProductPage />  </PrivateRoute>  } />
+        {/* Privte Routes */}
+        <Route path="/add-product" element={<AddProductPage />} />
+        <Route path="/edit-product/:id" element={<EditProductPage />} />
 
         {/*Not found page, catches any paths that don't exist - KEEP AT BOTTOM OF ROUTES*/}
         <Route path="*" element={<PageNotFound />} />
-
-
       </Routes>
     </BrowserRouter>
   );

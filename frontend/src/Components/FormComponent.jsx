@@ -37,9 +37,7 @@ export default function ({
       </form>
       <p>{postResponse}</p>
       <button onClick={() => navigate(`/${nextPage}`)}>
-        {nextPage === "login"
-          ? "Back to login page"
-          : "Not a member? click here"}
+        {nextPage === "" ? "Back to login page" : "Not a member? click here"}
       </button>
     </div>
   );
