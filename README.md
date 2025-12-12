@@ -11,7 +11,7 @@ Users are able to register, log in, view products, manage a cart, and add/edit p
 /main           - Main grocery app  
 /add-product    - Add a new product  
 /edit-product/:id - Edit a product  
-*                - Page not found or unauthrorized
+Anything else   - Not found/not authorized
 
 ## Credits
 
