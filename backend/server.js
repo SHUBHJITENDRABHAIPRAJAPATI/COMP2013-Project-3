@@ -3,21 +3,17 @@ const server = express();
 const port = 3000;
 const cors = require("cors");
 const mongoose = require("mongoose");
-const Product = require("./models/product");//getting Product model
-const User = require("./models/user");//getting user model
-const bcrypt = require("bcrypt");//for hashing password
-const jwt = require("jsonwebtoken");//
+const Product = require("./models/product"); //getting Product model
+const User = require("./models/user"); //getting user model
+const bcrypt = require("bcrypt"); //for hashing password
+const jwt = require("jsonwebtoken"); //
 require("dotenv").config();
-const { DB_URI, JWT_SECRET } = process.env;
-
-
+const { DB_URI, SECRET_KEY } = process.env;
 
 //setting up middleware
 server.use(cors());
 server.use(express.json());
 server.use(express.urlencoded({ extended: true }));
-
-
 
 //connecting to database and starting server
 //connect to mongoDB
@@ -46,9 +42,9 @@ server.get("/products", async (request, response) => {
 
 /* here,all the routes and CRUD will be written  */
 
-      /* $authentication routes */
+/* $authentication routes */
 //register route
-server.post("/register", async (request, response) => {
+server.post("/create-user", async (request, response) => {
   const { username, password } = request.body;
   try {
     const hashedPassword = await bcrypt.hash(password, 12);
@@ -65,8 +61,6 @@ server.post("/register", async (request, response) => {
   }
 });
 
-
-
 //login route
 server.post("/login", async (request, response) => {
   const { username, password } = request.body;
@@ -74,7 +68,9 @@ server.post("/login", async (request, response) => {
   try {
     const user = await User.findOne({ username });
     if (!user) {
-      return response.status(404).send({ message: "User is not found in the database" });
+      return response
+        .status(404)
+        .send({ message: "User is not found in the database" });
     }
 
     const match = await bcrypt.compare(password, user.password);
@@ -83,7 +79,6 @@ server.post("/login", async (request, response) => {
         .status(403)
         .send({ message: "please check username or password" });
     }
-
 
     const jwtToken = jwt.sign({ id: user._id, username }, SECRET_KEY);
     return response
@@ -94,8 +89,6 @@ server.post("/login", async (request, response) => {
   }
 });
 //login route ends here
-
-
 
 server.post("/add-product", async (request, response) => {
   const { productName, brand, image, price } = request.body;
