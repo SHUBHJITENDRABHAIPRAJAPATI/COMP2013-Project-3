@@ -1,3 +1,4 @@
+import { useNavigate } from "react-router-dom";
 import QuantityCounter from "./QuantityCounter";
 
 export default function ProductCard({
@@ -10,10 +11,11 @@ export default function ProductCard({
   handleRemoveQuantity,
   handleAddToCart,
   id,
-  handleEditProduct,
   _id,
   handleDeleteProduct,
 }) {
+  const navigate = useNavigate();
+
   return (
     <div className="ProductCard">
       <h3>{productName}</h3>
@@ -30,9 +32,11 @@ export default function ProductCard({
       <button onClick={() => handleAddToCart(id)}>Add to Cart</button>
       <button
         id="edit-button"
-        onClick={() =>
-          handleEditProduct({ price, brand, productName, image, _id })
-        }
+        onClick={() => {
+          navigate(`/edit-product/${_id}`, {
+            state: { productName, brand, image, price, _id },
+          });
+        }}
       >
         Edit
       </button>

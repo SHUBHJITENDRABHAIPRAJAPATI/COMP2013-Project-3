@@ -247,14 +247,6 @@ export default function GroceriesAppContainer() {
       />
 
       <div className="GroceriesApp-Container">
-        <ProductForm
-          handleOnSubmit={handleOnSubmit}
-          postResponse={postResponse}
-          handleOnChange={handleOnChange}
-          formData={formData}
-          isEditing={isEditing}
-        />
-
         <div className="FilterBox">
           <h3>Filter Price</h3>
           <div>

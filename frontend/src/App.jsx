@@ -7,8 +7,6 @@ import LoginPage from "./Components/LoginPage";
 import AddProductPage from "./Components/AddProductPage";
 import EditProductPage from "./Components/EditProductPage";
 
-import CreatePage from "./Components/createPage";
-
 //Jacob Tummon
 
 function App() {
