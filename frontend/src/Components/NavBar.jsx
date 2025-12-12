@@ -2,7 +2,7 @@ export default function NavBar({ quantity, onLogout }) {
   return (
     <nav className="NavBar">
       <div className="NavDiv NavUser">
-        <h3>Hello, username</h3>
+        <h3>Welcome, username</h3>
         <button type="button" onClick={onLogout} className="logoutBtn">
           Logout
         </button>
@@ -16,8 +16,9 @@ export default function NavBar({ quantity, onLogout }) {
             quantity > 0
               ? "src/assets/cart-full.png"
               : "src/assets/cart-empty.png"
-          }
+          } alt="Cart"
         />
+         <span>{quantity}</span>
       </div>
     </nav>
   );
