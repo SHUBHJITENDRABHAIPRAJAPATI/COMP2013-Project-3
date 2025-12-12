@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 
-export default function ({
+export default function FormComponent({
   formData,
   handleOnSubmit,
   handleOnChange,

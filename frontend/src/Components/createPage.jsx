@@ -1,5 +1,6 @@
 import axios from "axios";
 import { useState } from "react";
+import FormComponent from "./FormComponent";
 
 export default function CreatePage() {
   //states
@@ -29,4 +30,17 @@ export default function CreatePage() {
     handleRegister();
     setFormData({ username: "", password: "" });
   };
+
+  return (
+    <div>
+      <FormComponent
+        formData={formData}
+        postResponse={postResponse}
+        handleOnChange={handleOnChange}
+        handleOnSubmit={handleOnSubmit}
+        currentPage="Register"
+        nextPage="login"
+      />
+    </div>
+  );
 }

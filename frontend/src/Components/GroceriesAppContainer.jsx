@@ -5,6 +5,8 @@ import ProductsContainer from "./ProductsContainer";
 import NavBar from "./NavBar";
 import axios from "axios";
 import ProductForm from "./ProductForm";
+import { jwtDecode } from "jwt-decode";
+import Cookies from "js-cookie";
 
 export default function GroceriesAppContainer() {
   /////////// States ///////////
@@ -21,9 +23,29 @@ export default function GroceriesAppContainer() {
   });
   const [isEditing, setIsEditing] = useState(false);
 
+  //
+  const [currentUser, setCurrentUser] = useState(() => {
+    const jwtToken = Cookies.get("jwt-authorization");
+    if (!jwtToken) {
+      return "";
+    }
+    try {
+      const decodedToken = jwtDecode(jwtToken);
+      return decodedToken.username;
+    } catch {
+      return "";
+    }
+  });
+
   const navigate = useNavigate();
 
   //////////useEffect////////
+
+  useEffect(() => {
+    if (!currentUser) {
+      navigate("/not-authorized");
+    }
+  }, []);
 
   useEffect(() => {
     handleProductsFromDB();
@@ -200,7 +222,8 @@ export default function GroceriesAppContainer() {
   };
 
   const handleLogout = () => {
-    localStorage.removeItem("token"); //Backend does not store cookies, so I'm using local storage.
+    Cookies.remove("jwt-authorization");
+    setCurrentUser("");
     navigate("/login"); //Can be changed depending on what our login is.
   };
 
