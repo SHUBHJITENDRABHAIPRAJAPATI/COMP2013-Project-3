@@ -4,7 +4,7 @@ export default function NavBar({ quantity, onLogout, currentUser }) {
   return (
     <nav className="NavBar">
       <div className="NavDiv NavUser">
-        <h3>Welcome, username</h3>
+        <h3>Welcome, {currentUserg}</h3>
         <button type="button" onClick={onLogout} className="logoutBtn">
           Logout
         </button>
