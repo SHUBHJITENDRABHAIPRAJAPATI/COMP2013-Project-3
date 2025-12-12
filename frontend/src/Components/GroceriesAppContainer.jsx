@@ -23,7 +23,7 @@ export default function GroceriesAppContainer() {
   });
   const [isEditing, setIsEditing] = useState(false);
 
-  //
+  //state to get currentUser username from JWT cookie, returns empty if no cookie
   const [currentUser, setCurrentUser] = useState(() => {
     const jwtToken = Cookies.get("jwt-authorization");
     if (!jwtToken) {
@@ -41,6 +41,7 @@ export default function GroceriesAppContainer() {
 
   //////////useEffect////////
 
+  //only allows logged in users to enter main
   useEffect(() => {
     if (!currentUser) {
       navigate("/not-authorized");
@@ -243,7 +244,7 @@ export default function GroceriesAppContainer() {
       <NavBar
         quantity={cartList.length}
         onLogout={handleLogout}
-        username={currentUser}
+        currentUser={currentUser}
       />
 
       <div className="GroceriesApp-Container">
@@ -310,6 +311,7 @@ export default function GroceriesAppContainer() {
           productQuantity={productQuantity}
           handleEditProduct={handleEditProduct}
           handleDeleteProduct={handleDeleteProduct}
+          currentUser={currentUser}
         />
         <CartContainer
           cartList={cartList}

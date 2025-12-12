@@ -1,12 +1,15 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
 import ProductForm from "./ProductForm";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 
 //Fixed by Jacob
 
 export default function AddProductPage() {
   const navigate = useNavigate();
+  //Gets currentUser state from NavBar
+  const currentUser = useLocation();
+
   const [formData, setFormData] = useState({
     productName: "",
     brand: "",
@@ -30,6 +33,13 @@ export default function AddProductPage() {
       setFormData({ productName: "", brand: "", image: "", price: "" });
     } catch (error) {}
   };
+
+  //only allows admin to access the page
+  useEffect(() => {
+    if (currentUser.state != "admin") {
+      navigate("/not-authorized");
+    }
+  }, []);
 
   return (
     <div className="edit-add-page">

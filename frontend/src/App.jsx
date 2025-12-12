@@ -6,6 +6,7 @@ import PageNotFound from "./Components/PageNotFound";
 import LoginPage from "./Components/LoginPage";
 import AddProductPage from "./Components/AddProductPage";
 import EditProductPage from "./Components/EditProductPage";
+import CreatePage from "./Components/createPage";
 
 //Jacob Tummon
 
@@ -25,9 +26,8 @@ function App() {
         <Route path="/" element={<LoginPage />} />
 
         {/* Privte Routes */}
-        {/* <Route path="/add-product" element={<PrivateRoute> <AddProductPage /> </PrivateRoute>  } />
-
-          <Route path="/edit-product/:id"  element={<PrivateRoute>  <EditProductPage />  </PrivateRoute>  } /> */}
+        <Route path="/add-product" element={<AddProductPage />} />
+        <Route path="/edit-product/:id" element={<EditProductPage />} />
 
         {/*Not found page, catches any paths that don't exist - KEEP AT BOTTOM OF ROUTES*/}
         <Route path="*" element={<PageNotFound />} />

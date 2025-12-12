@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-export default function NavBar({ quantity, onLogout }) {
+export default function NavBar({ quantity, onLogout, currentUser }) {
   const navigate = useNavigate();
   return (
     <nav className="NavBar">
@@ -8,9 +8,16 @@ export default function NavBar({ quantity, onLogout }) {
         <button type="button" onClick={onLogout} className="logoutBtn">
           Logout
         </button>
-        <button type="button" onClick={() => navigate("/add-product")}>
-          Add Product
-        </button>
+
+        {/*Short circuit so only admin can see add product button*/}
+        {currentUser === "admin" && (
+          <button
+            type="button"
+            onClick={() => navigate("/add-product", { state: currentUser })}
+          >
+            Add Product
+          </button>
+        )}
       </div>
       <div className="NavDiv NavTitle">
         <h2>Groceries App 🍎</h2>

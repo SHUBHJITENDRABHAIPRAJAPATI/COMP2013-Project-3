@@ -19,6 +19,13 @@ export default function EditProductPage() {
 
   const [postResponse, setPostResponse] = useState("");
 
+  //only allows admin to access the page
+  useEffect(() => {
+    if (location.state.currentUser != "admin") {
+      navigate("/not-authorized");
+    }
+  }, []);
+
   useEffect(() => {
     const passedProduct = location.state;
     if (passedProduct) {

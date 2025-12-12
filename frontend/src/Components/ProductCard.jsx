@@ -13,6 +13,7 @@ export default function ProductCard({
   id,
   _id,
   handleDeleteProduct,
+  currentUser,
 }) {
   const navigate = useNavigate();
 
@@ -30,19 +31,29 @@ export default function ProductCard({
       />
       <h3>{price}</h3>
       <button onClick={() => handleAddToCart(id)}>Add to Cart</button>
-      <button
-        id="edit-button"
-        onClick={() => {
-          navigate(`/edit-product/${_id}`, {
-            state: { productName, brand, image, price, _id },
-          });
-        }}
-      >
-        Edit
-      </button>
-      <button className="RemoveButton" onClick={() => handleDeleteProduct(_id)}>
-        Delete
-      </button>
+
+      {/*Short circuit so only admin can see edit product button and delete button*/}
+      {currentUser === "admin" && (
+        <div>
+          <button
+            id="edit-button"
+            onClick={() => {
+              navigate(`/edit-product/${_id}`, {
+                state: { productName, brand, image, price, _id, currentUser },
+              });
+            }}
+          >
+            Edit
+          </button>
+
+          <button
+            className="RemoveButton"
+            onClick={() => handleDeleteProduct(_id)}
+          >
+            Delete
+          </button>
+        </div>
+      )}
     </div>
   );
 }
