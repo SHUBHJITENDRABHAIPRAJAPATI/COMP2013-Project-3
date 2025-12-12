@@ -1,44 +1,46 @@
-import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import FormComponent from "./FormComponent";
 import axios from "axios";
+import { useState } from "react";
 
 export default function RegisterPage() {
+  //States
   const [formData, setFormData] = useState({ username: "", password: "" });
-  const [message, setMessage] = useState("");
+  const [postResponse, setPostResponse] = useState("");
 
-  const navigate = useNavigate();
-
+  //Handlers
   const handleOnChange = (e) => {
-    setFormData({...formData, [e.target.name]: e.target.value });
+    setFormData((prevData) => {
+      return { ...prevData, [e.target.name]: e.target.value };
+    });
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  const handleRegister = async () => {
     try {
-      await axios.post("http://localhost:3000/register", formData);
-      navigate("/");
+      const response = await axios.post("http://localhost:3000/register", {
+        ...formData,
+      });
+      setPostResponse(response.data.message);
     } catch (error) {
-      setMessage(error.response.data.message);
+      setPostResponse(error.response.data.message || "Cannot register user");
     }
+  };
+
+  const handleOnSubmit = (e) => {
+    e.preventDefault();
+    handleRegister();
+    setFormData({ username: "", password: "" });
   };
 
   return (
     <div>
-      <h1>Register</h1>
-
-      <form onSubmit={handleSubmit}>
-        <label>Username</label>
-        <input name="username" value={formData.username} onChange={handleOnChange} />
-
-        <label>Password</label>
-        <input type="password" name="password" value={formData.password} onChange={handleOnChange} />
-
-        <button type="submit">Submit</button>
-      </form>
-
-      {message && <p>{message}</p>}
-
-      <Link to="/">Back to login</Link>
+      <FormComponent
+        formData={formData}
+        postResponse={postResponse}
+        handleOnChange={handleOnChange}
+        handleOnSubmit={handleOnSubmit}
+        currentPage="Register"
+        nextPage="login"
+      />
     </div>
   );
 }
